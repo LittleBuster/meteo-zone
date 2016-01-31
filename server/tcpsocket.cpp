@@ -22,7 +22,7 @@ TcpSocket::TcpSocket(shared_ptr<tcp::socket> parent_sock)
     this->s_client = parent_sock;
 }
 
-void TcpSocket::send(const void *data, size_t len)
+void TcpSocket::send(const void *data, size_t len) const
 {
     boost::system::error_code error;
 
@@ -46,7 +46,7 @@ void TcpSocket::recv(void *data, size_t len)
         throw string("Fail receiving data. Bad data length.");
 }
 
-void TcpSocket::start(unsigned port)
+void TcpSocket::start(unsigned port) const
 {
     tcp::acceptor a(io_service, tcp::endpoint(tcp::v4(), port));
     for (;;) {

@@ -47,11 +47,11 @@ public:
 
     virtual void acceptError(void) { };
 
-    void send(const void *data, size_t len);
+    void send(const void *data, size_t len) const;
 
     void recv(void *data, size_t len);
 
-    void start(unsigned port);
+    void start(unsigned port) const;
 };
 
 
