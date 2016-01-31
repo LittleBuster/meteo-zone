@@ -12,15 +12,49 @@
 #ifndef __DATABASE_H__
 #define __DATABASE_H__
 
+#include <string>
+
+using namespace std;
+
 
 class IDatabase
 {
 public:
+    virtual void connect(const string &ip, const string &user, const string &passwd, const string &base) = 0;
+    virtual void addToBase(unsigned id, float temp, float hum) = 0;
+    virtual void close(void) = 0;
 };
+
 
 class Database: public IDatabase
 {
 public:
+    /**
+     * Connection to database
+     * @ip: remote ip address
+     * @user: database username
+     * @passwd: database user password
+     * @base: database name
+     *
+     * throw: error if connection fail
+     */
+    void connect(const string &ip, const string &user, const string &passwd, const string &base);
+
+    /**
+     * Add record to database
+     * @id: meteo user
+     * @temp: temperatures massive
+     * @hum: humidities massive
+     * @sens: sensors massive
+     *
+     * throw: error if fail record addition to database
+     */
+    void addToBase(unsigned id, float temp, float hum);
+
+    /*
+     * Disconnection from database
+     */
+    void close(void);
 };
 
 

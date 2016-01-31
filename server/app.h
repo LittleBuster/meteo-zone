@@ -16,7 +16,7 @@
 #include "database.h"
 #include "configs.h"
 #include "server.h"
-#include "tcpserver.h"
+#include "tcpsocket.h"
 
 
 class App
@@ -25,10 +25,10 @@ private:
     shared_ptr<ILog> m_log;
     shared_ptr<IDatabase> m_db;
     shared_ptr<IConfigs> m_cfg;
-    shared_ptr<ITcpServer> m_server;
+    shared_ptr<ITcpSocket> m_server;
 
 public:
-    App(shared_ptr<ILog> log, shared_ptr<IDatabase> db, shared_ptr<IConfigs> cfg, shared_ptr<ITcpServer> server);
+    App(shared_ptr<ILog> log, shared_ptr<IDatabase> db, shared_ptr<IConfigs> cfg, shared_ptr<ITcpSocket> server);
 
     void start(void);
 };

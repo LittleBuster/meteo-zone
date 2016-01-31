@@ -19,8 +19,9 @@
 
 int main()
 {
-    auto log = make_shared<Log>();
     auto db = make_shared<Database>();
+    auto client = make_shared<TcpSocket>();
+    auto log = make_shared<Log>(client);
     auto cfg = make_shared<Configs>(log);
     auto server = make_shared<Server>(log, db, cfg);
 

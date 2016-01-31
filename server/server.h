@@ -15,10 +15,10 @@
 #include "log.h"
 #include "database.h"
 #include "configs.h"
-#include "tcpserver.h"
+#include "tcpsocket.h"
 
 
-class Server: public TcpServer
+class Server: public TcpSocket
 {
 private:
     shared_ptr<ILog> m_log;
@@ -27,6 +27,10 @@ private:
 
 public:
     Server(shared_ptr<ILog> log, shared_ptr<IDatabase> db, shared_ptr<IConfigs> cfg);
+
+    void newSession(shared_ptr<ITcpSocket> client) override final;
+
+    void acceptError() override final;
 };
 
 

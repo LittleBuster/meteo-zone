@@ -3,13 +3,15 @@ CONFIG += console c++14
 CONFIG -= app_bundle
 CONFIG -= qt
 
+LIBS += -lboost_system -lpthread
+
 SOURCES += main.cpp \
     log.cpp \
     database.cpp \
     configs.cpp \
     app.cpp \
     server.cpp \
-    tcpserver.cpp
+    tcpsocket.cpp
 
 HEADERS += \
     log.h \
@@ -17,4 +19,4 @@ HEADERS += \
     configs.h \
     app.h \
     server.h \
-    tcpserver.h
+    tcpsocket.h
