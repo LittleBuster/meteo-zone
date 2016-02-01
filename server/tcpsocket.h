@@ -26,9 +26,11 @@ class ITcpSocket
 public:
     virtual void newSession(shared_ptr<ITcpSocket> client) = 0;
     virtual void acceptError(void) = 0;
-    virtual void send(const void *data, size_t len) = 0;
+    virtual void connect(const string &ip, unsigned port) = 0;
+    virtual void send(const void *data, size_t len) const = 0;
     virtual void recv(void *data, size_t len) = 0;
     virtual void start(unsigned port) = 0;
+    virtual void close(void) = 0;
 };
 
 
@@ -43,15 +45,55 @@ public:
 
     TcpSocket(shared_ptr<tcp::socket> parent_sock);
 
+    /*
+     * New client connection session
+     */
     virtual void newSession(shared_ptr<ITcpSocket> client) { };
 
+    /*
+     * Accepting new client error signal
+     */
     virtual void acceptError(void) { };
 
+    /**
+     * Connect to remote socket
+     * @ip: remote ip address
+     * @port: remote socket port
+     *
+     * throw: error if fail connecting
+     */
+    void connect(const string &ip, unsigned port);
+
+    /**
+     * Send data to server
+     * @data: sending data
+     * @len: data length
+     *
+     * throw: error if fail sending data
+     */
     void send(const void *data, size_t len) const;
 
+    /**
+     * Receive data from server
+     * @data: receiving data
+     * @len: data length
+     *
+     * throw: error if fail receiving data
+     */
     void recv(void *data, size_t len);
 
-    void start(unsigned port) const;
+    /**
+     * Binding tcp server
+     * @port: local tcp port
+     *
+     * throw: error if fail binding
+     */
+    void start(unsigned port);
+
+    /*
+     * Close connection
+     */
+    void close(void);
 };
 
 

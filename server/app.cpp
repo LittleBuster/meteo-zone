@@ -13,10 +13,9 @@
 #include <iostream>
 
 
-App::App(shared_ptr<ILog> log, shared_ptr<IDatabase> db, shared_ptr<IConfigs> cfg, shared_ptr<ITcpSocket> server)
+App::App(shared_ptr<ILog> log, shared_ptr<IConfigs> cfg, shared_ptr<ITcpSocket> server)
 {
     this->m_log = log;
-    this->m_db = db;
     this->m_cfg = cfg;
     this->m_server = server;
 }

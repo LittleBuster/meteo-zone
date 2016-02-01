@@ -8,6 +8,7 @@
  * as published by the Free Software Foundation; either version 3
  * of the Licence, or (at your option) any later version.
  */
+
 #include <memory>
 
 #include "log.h"
@@ -25,7 +26,7 @@ int main()
     auto cfg = make_shared<Configs>(log);
     auto server = make_shared<Server>(log, db, cfg);
 
-    auto app = make_shared<App>(log, db, cfg, server);
+    auto app = make_shared<App>(log, cfg, server);
     app->start();
 
     return 0;

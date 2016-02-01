@@ -28,7 +28,7 @@ private:
     shared_ptr<ITcpSocket> m_server;
 
 public:
-    App(shared_ptr<ILog> log, shared_ptr<IDatabase> db, shared_ptr<IConfigs> cfg, shared_ptr<ITcpSocket> server);
+    App(shared_ptr<ILog> log, shared_ptr<IConfigs> cfg, shared_ptr<ITcpSocket> server);
 
     void start(void);
 };

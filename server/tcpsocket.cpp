@@ -10,6 +10,8 @@
  */
 
 #include "tcpsocket.h"
+#include <stdlib.h>
+#include <boost/lexical_cast.hpp>
 
 
 TcpSocket::TcpSocket()
@@ -20,6 +22,16 @@ TcpSocket::TcpSocket()
 TcpSocket::TcpSocket(shared_ptr<tcp::socket> parent_sock)
 {
     this->s_client = parent_sock;
+}
+
+void TcpSocket::connect(const string &ip, unsigned port)
+{
+    boost::system::error_code err;
+
+    tcp::resolver resolver(io_service);
+    boost::asio::connect(*s_client, resolver.resolve({ip, boost::lexical_cast<string>(port)}), err);
+    if (err)
+        throw string("Can not connect to server.");
 }
 
 void TcpSocket::send(const void *data, size_t len) const
@@ -46,7 +58,7 @@ void TcpSocket::recv(void *data, size_t len)
         throw string("Fail receiving data. Bad data length.");
 }
 
-void TcpSocket::start(unsigned port) const
+void TcpSocket::start(unsigned port)
 {
     tcp::acceptor a(io_service, tcp::endpoint(tcp::v4(), port));
     for (;;) {
@@ -61,4 +73,9 @@ void TcpSocket::start(unsigned port) const
         auto client = make_shared<TcpSocket>(sock);
         thread(boost::bind(&TcpSocket::newSession, this, client)).detach();
     }
+}
+
+void TcpSocket::close()
+{
+    this->s_client->close();
 }

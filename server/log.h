@@ -48,15 +48,7 @@ private:
     RemoteLog remote_log;
     string log_path;
 
-    /*
-     * Connection to remote log server
-     */
-    void connectToLog(void);
-
-    /*
-     * Close remote log connection
-     */
-    void closeLog(void);
+    string makeLogMsg(const string &msg, LogType type);
 
 public:
     Log(shared_ptr<ITcpSocket> client);

@@ -10,29 +10,72 @@
  */
 
 #include "log.h"
+#include <iostream>
+#include "fstream"
 
+
+string Log::makeLogMsg(const string &msg, LogType type)
+{
+    string out;
+    char dt[16];
+
+    time_t seconds = time(NULL);
+    tm* timeinfo = localtime(&seconds);
+
+    strftime(dt, 15, "%F", timeinfo);
+    out = "[" + string(dt) + "][";
+    strftime(dt, 15, "%T", timeinfo);
+    out += string(dt) + "][";
+
+    switch (type) {
+        case LOG_ERROR: {
+            out += "ERROR]";
+            break;
+        }
+        case LOG_WARNING: {
+            out += "WARNING]";
+            break;
+        }
+        case LOG_INFORMATION: {
+            out += "INFO]";
+            break;
+        }
+    }
+    out += msg;
+    return out;
+}
 
 Log::Log(shared_ptr<ITcpSocket> client)
 {
     this->m_client = client;
 }
 
-void Log::connectToLog()
-{
-
-}
-
-void Log::closeLog()
-{
-
-}
-
 void Log::local(const string &message, LogType err_type)
 {
+    string msg = makeLogMsg(message, err_type);
+    cout << msg << endl;
 
+    if (this->log_path == "")
+        return;
+
+    ofstream log;
+    log.open(this->log_path, ios::out|ios::ate);
+    log << msg << "\n";
+    log.close();
 }
 
 void Log::remote(const string &message, LogType err_type)
 {
+    string msg = makeLogMsg(message, err_type);
+    cout << msg << endl;
 
+    try {
+        m_client->connect(remote_log.ip, remote_log.port);
+        m_client->send(msg.c_str(), 255);
+    }
+    catch (const string &err) {
+        local("[REMOTE_LOG]: " + err, LOG_WARNING);
+        return;
+    }
+    m_client->close();
 }
