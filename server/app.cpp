@@ -23,5 +23,5 @@ App::App(shared_ptr<ILog> log, shared_ptr<IConfigs> cfg, shared_ptr<ITcpSocket> 
 void App::start()
 {
     cout << "Starting weather server..." << endl;
-    m_server->start(5000);
+    m_log->setLogFile("/var/log/meteosrv.log");
 }

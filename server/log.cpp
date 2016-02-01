@@ -48,6 +48,7 @@ string Log::makeLogMsg(const string &msg, LogType type)
 Log::Log(shared_ptr<ITcpSocket> client)
 {
     this->m_client = client;
+    this->setLogFile("");
 }
 
 void Log::local(const string &message, LogType err_type)
@@ -59,7 +60,7 @@ void Log::local(const string &message, LogType err_type)
         return;
 
     ofstream log;
-    log.open(this->log_path, ios::out|ios::ate);
+    log.open(this->log_path, ios::out|ios::ate|ios::app);
     log << msg << "\n";
     log.close();
 }

@@ -24,7 +24,7 @@ void Server::newSession(shared_ptr<ITcpSocket> client)
 
 }
 
-void Server::acceptError()
+void Server::acceptError(void)
 {
 
 }

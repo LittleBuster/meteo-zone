@@ -18,7 +18,7 @@
 #include "tcpsocket.h"
 
 
-class Server: public TcpSocket
+class Server final: public TcpSocket
 {
 private:
     shared_ptr<ILog> m_log;
@@ -28,9 +28,15 @@ private:
 public:
     Server(shared_ptr<ILog> log, shared_ptr<IDatabase> db, shared_ptr<IConfigs> cfg);
 
-    void newSession(shared_ptr<ITcpSocket> client) override final;
+    /*
+     * New client connection session
+     */
+    virtual void newSession(shared_ptr<ITcpSocket> client) override final;
 
-    void acceptError() override final;
+    /*
+     * Accepting new client error signal
+     */
+    virtual void acceptError(void) override final;
 };
 
 

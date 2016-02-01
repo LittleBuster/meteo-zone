@@ -36,6 +36,7 @@ class ILog
 {
 public:
     virtual void setRemoteLogCfg(const string &ip, unsigned port) = 0;
+    virtual void setLogFile(const string &filepath) = 0;
     virtual void local(const string &message, LogType log_type) = 0;
     virtual void remote(const string &message, LogType log_type) = 0;
 };
