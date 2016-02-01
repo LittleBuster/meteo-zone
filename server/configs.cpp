@@ -10,8 +10,55 @@
  */
 
 #include "configs.h"
+#include <fstream>
+#include <iostream>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
 
-Configs::Configs(shared_ptr<ILog> log)
+
+void Configs::load(const string &filename)
 {
-    this->m_log = log;
+    std::ifstream ifs;
+    boost::property_tree::ptree pt;
+
+    ifs.open(filename);
+    if (!ifs.is_open())
+        throw string("File not found.");
+
+    try {
+        boost::property_tree::read_json(ifs, pt);
+    }
+    catch (...) {
+        ifs.close();
+        throw string("Fail parsing json file.");
+    }
+
+    try {
+        msc.port = pt.get<unsigned>("MeteoServer.Port");
+        rlc.ip = pt.get<string>("RemoteLog.Ip");
+        rlc.port = pt.get<unsigned>("RemoteLog.Port");
+        dbc.id = pt.get<unsigned>("Database.Id");
+        dbc.ip = pt.get<string>("Database.Ip");
+        dbc.user = pt.get<string>("Database.User");
+        dbc.passwd = pt.get<string>("Database.Passwd");
+        dbc.base = pt.get<string>("Database.Base");
+    }
+    catch (...) {
+        ifs.close();
+        throw string("Fail reading configs values.");
+    }
+    ifs.close();
+}
+
+void Configs::print()
+{
+    cout << "Configs:" << endl << "------------------------" << endl;
+    cout << "MeteoServerPort: " << msc.port << endl;
+    cout << "RemoteLogIp: " << rlc.ip << endl;
+    cout << "RemoteLogPort: " << rlc.port << endl;
+    cout << "DatabaseId: " << dbc.id << endl;
+    cout << "DatabaseIp: " << dbc.ip << endl;
+    cout << "DatabaseUser: " << dbc.user << endl;
+    cout << "DatabasePasswd: " << dbc.passwd << endl;
+    cout << "DatabaseBase: " << dbc.base << endl;
 }

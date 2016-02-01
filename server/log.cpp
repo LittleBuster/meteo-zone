@@ -49,6 +49,8 @@ Log::Log(shared_ptr<ITcpSocket> client)
 {
     this->m_client = client;
     this->setLogFile("");
+    this->remote_log.ip = "";
+    this->remote_log.port = 0;
 }
 
 void Log::local(const string &message, LogType err_type)

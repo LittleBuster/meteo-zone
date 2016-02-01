@@ -20,8 +20,28 @@ App::App(shared_ptr<ILog> log, shared_ptr<IConfigs> cfg, shared_ptr<ITcpSocket> 
     this->m_server = server;
 }
 
-void App::start()
+int App::start()
 {
     cout << "Starting weather server..." << endl;
     m_log->setLogFile("/var/log/meteosrv.log");
+
+    try {
+        m_cfg->load("/etc/meteosrv.cfg");
+    }
+    catch (const string &err) {
+        m_log->local("[CONFIGS]: " + err, LOG_ERROR);
+        return -1;
+    }
+    auto rlc = m_cfg->getRLogCfg();
+    auto msc = m_cfg->getMeteoCfg();
+    m_log->setRemoteLogCfg(rlc->ip, rlc->port);
+
+    try {
+        m_server->start(msc->port);
+    }
+    catch (const string &err) {
+        m_log->local("[SERVER]: " + err, LOG_ERROR);
+        return -1;
+    }
+    return 0;
 }

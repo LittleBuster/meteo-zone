@@ -30,7 +30,7 @@ private:
 public:
     App(shared_ptr<ILog> log, shared_ptr<IConfigs> cfg, shared_ptr<ITcpSocket> server);
 
-    void start(void);
+    int start(void);
 };
 
 

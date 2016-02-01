@@ -21,13 +21,11 @@
 int main()
 {
     auto db = make_shared<Database>();
+    auto cfg = make_shared<Configs>();
     auto client = make_shared<TcpSocket>();
     auto log = make_shared<Log>(client);
-    auto cfg = make_shared<Configs>(log);
     auto server = make_shared<Server>(log, db, cfg);
 
     auto app = make_shared<App>(log, cfg, server);
-    app->start();
-
-    return 0;
+    return app->start();
 }
