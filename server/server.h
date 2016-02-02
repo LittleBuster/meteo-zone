@@ -16,14 +16,25 @@
 #include "database.h"
 #include "configs.h"
 #include "tcpsocket.h"
+#include <vector>
 
 
-class Server final: public TcpSocket
+class IServer: public virtual ITcpSocket
+{
+public:
+    virtual void loadUsers(const string &filename) = 0;
+};
+
+
+class Server final: public IServer, public TcpSocket
 {
 private:
     shared_ptr<ILog> m_log;
     shared_ptr<IDatabase> m_db;
     shared_ptr<IConfigs> m_cfg;
+    vector<unsigned> users;
+
+    bool checkUser(unsigned user);
 
 public:
     Server(shared_ptr<ILog> log, shared_ptr<IDatabase> db, shared_ptr<IConfigs> cfg);
@@ -37,6 +48,11 @@ public:
      * Accepting new client error signal
      */
     virtual void acceptError(void) override final;
+
+    /*
+     * Loading user list
+     */
+    void loadUsers(const string &filename);
 };
 
 

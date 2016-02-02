@@ -34,7 +34,7 @@ public:
 };
 
 
-class TcpSocket: public ITcpSocket
+class TcpSocket: public virtual ITcpSocket
 {
 private:
     boost::asio::io_service io_service;

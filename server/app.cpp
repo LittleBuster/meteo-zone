@@ -13,7 +13,7 @@
 #include <iostream>
 
 
-App::App(shared_ptr<ILog> log, shared_ptr<IConfigs> cfg, shared_ptr<ITcpSocket> server)
+App::App(shared_ptr<ILog> log, shared_ptr<IConfigs> cfg, shared_ptr<IServer> server)
 {
     this->m_log = log;
     this->m_cfg = cfg;
@@ -37,6 +37,7 @@ int App::start()
     m_log->setRemoteLogCfg(rlc->ip, rlc->port);
 
     try {
+        m_server->loadUsers("/etc/meteo-users.cfg");
         m_server->start(msc->port);
     }
     catch (const string &err) {

@@ -13,6 +13,7 @@
 #define __DATABASE_H__
 
 #include <string>
+#include <mysql/mysql.h>
 
 using namespace std;
 
@@ -28,6 +29,10 @@ public:
 
 class Database: public IDatabase
 {
+private:
+    MYSQL mysql;
+    MYSQL *conn;
+
 public:
     /**
      * Connection to database
@@ -43,9 +48,8 @@ public:
     /**
      * Add record to database
      * @id: meteo user
-     * @temp: temperatures massive
-     * @hum: humidities massive
-     * @sens: sensors massive
+     * @temp: temperature value
+     * @hum: humidity value
      *
      * throw: error if fail record addition to database
      */

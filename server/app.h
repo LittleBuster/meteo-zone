@@ -25,10 +25,10 @@ private:
     shared_ptr<ILog> m_log;
     shared_ptr<IDatabase> m_db;
     shared_ptr<IConfigs> m_cfg;
-    shared_ptr<ITcpSocket> m_server;
+    shared_ptr<IServer> m_server;
 
 public:
-    App(shared_ptr<ILog> log, shared_ptr<IConfigs> cfg, shared_ptr<ITcpSocket> server);
+    App(shared_ptr<ILog> log, shared_ptr<IConfigs> cfg, shared_ptr<IServer> server);
 
     int start(void);
 };
