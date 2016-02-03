@@ -21,13 +21,20 @@ typedef struct {
     unsigned id;
     string ip;
     unsigned port;
+    unsigned interval;
 } MeteoServerCfg;
+
+typedef struct {
+    string ip;
+    unsigned port;
+} RemoteLogCfg;
 
 
 class IConfigs
 {
 public:
     virtual MeteoServerCfg* getMeteoCfg(void) = 0;
+    virtual RemoteLogCfg* getRLogCfg(void) = 0;
     virtual void load(const string &filename) = 0;
     virtual void print(void) = 0;
 };
@@ -37,10 +44,15 @@ class Configs: public IConfigs
 {
 private:
     MeteoServerCfg msc;
+    RemoteLogCfg rlc;
 
 public:
     inline MeteoServerCfg* getMeteoCfg(void) {
         return &msc;
+    }
+
+    inline RemoteLogCfg* getRLogCfg(void) {
+        return &rlc;
     }
 
     /*

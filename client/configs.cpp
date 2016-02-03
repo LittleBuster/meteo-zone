@@ -37,6 +37,9 @@ void Configs::load(const string &filename)
         msc.id = pt.get<unsigned>("MeteoServer.Id");
         msc.ip = pt.get<string>("MeteoServer.Ip");
         msc.port = pt.get<unsigned>("MeteoServer.Port");
+        msc.interval = pt.get<unsigned>("MeteoServer.Interval");
+        rlc.ip = pt.get<string>("RemoteLog.Ip");
+        rlc.port = pt.get<unsigned>("RemoteLog.port");
     }
     catch (...) {
         ifs.close();
@@ -45,10 +48,13 @@ void Configs::load(const string &filename)
     ifs.close();
 }
 
-void Configs::print()
+void Configs::print(void)
 {
     cout << "Configs:" << endl << "------------------------" << endl;
     cout << "MeteoServerId: " << msc.id << endl;
     cout << "MeteoServerIp: " << msc.ip << endl;
     cout << "MeteoServerPort: " << msc.port << endl;
+    cout << "MeteoServerInterval: " << msc.interval << endl;
+    cout << "RemoteLogIp: " << rlc.ip << endl;
+    cout << "RemoteLogPort: " << rlc.port << endl;
 }

@@ -6,12 +6,12 @@
 #include "tcpsocket.h"
 
 
-int main(int argc, char *argv[])
+int main(void)
 {
     auto cfg = make_shared<Configs>();
     auto client = make_shared<TcpSocket>();
     auto log = make_shared<Log>(client);
-    auto sender = make_shared<Sender>(client, log);
+    auto sender = make_shared<Sender>(client, cfg, log);
 
     auto app = make_shared<App>(sender, cfg, log);
     return app->start();
