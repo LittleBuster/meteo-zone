@@ -11,11 +11,13 @@
 
 #include "server.h"
 #include <fstream>
+#include <omp.h>
 #include <boost/lexical_cast.hpp>
 
 
 bool Server::checkUser(unsigned user)
 {
+    #pragma omp parallel for
     for (const auto &usr: this->users)
         if (usr == user)
             return true;
