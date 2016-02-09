@@ -3,7 +3,7 @@ CONFIG += console c++11
 CONFIG -= app_bundle
 CONFIG -= qt
 
-LIBS += -lboost_system -lpthread -lboost_thread
+LIBS += -lboost_system -lpthread -lboost_thread -ldht22
 
 SOURCES += main.cpp \
     app.cpp \

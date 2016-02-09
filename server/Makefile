@@ -3,10 +3,11 @@ CXXFLAGS=-I. -Wall -pedantic -O2 -std=c++11
 LDFLAGS=-lboost_system -lpthread
 LDFLAGS2=-lmysqlclient
 
+
 all: app
 
 app: log.o database.o configs.o server.o tcpsocket.o app.o main.o
-	$(CC) log.o database.o configs.o server.o tcpsocket.o app.o main.o -o weathersrv $(CXXFLAGS) $(LDFLAGS) $(LDFLAGS2)
+	$(CC) log.o database.o configs.o server.o tcpsocket.o app.o main.o -o mzsrv $(CXXFLAGS) $(LDFLAGS) $(LDFLAGS2)
 
 log.o: log.cpp
 	$(CC) log.cpp -c $(CXXFLAGS)
@@ -31,4 +32,13 @@ main.o: main.cpp
 
 clean:
 	-rm *.o
-	-rm weathersrv
+	-rm mzsrv
+
+install:
+	-mkdir /usr/share/meteosrv
+	cp mzsrv /usr/share/meteosrv/
+	cp meteosrv.cfg /etc/
+
+remove:
+	rm -rf /usr/share/meteosrv
+	rm /etc/meteosrv.cfg
