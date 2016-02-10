@@ -11,13 +11,17 @@
 
 #include "server.h"
 #include <fstream>
-#include <omp.h>
+#include <string>
 #include <boost/lexical_cast.hpp>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
+#include <istream>
+
+using namespace std;
 
 
 bool Server::checkUser(unsigned user)
 {
-    #pragma omp parallel for
     for (const auto &usr: this->users)
         if (usr == user)
             return true;
@@ -34,13 +38,40 @@ Server::Server(shared_ptr<ILog> log, shared_ptr<IDatabase> db, shared_ptr<IConfi
 
 void Server::newSession(shared_ptr<ITcpSocket> client)
 {
+    Data rdata;
+    char data[DATA_SIZE];   
     auto dbc = m_cfg->getDatabaseCfg();
 
-    //TODO: Add reading client data
+    memset(data, 0x00, DATA_SIZE);
+    try {
+        client->recv(data, DATA_SIZE);
+    }
+    catch (const string &err) {
+        m_log->local("[NEW_CLIENT]: " + err, LOG_INFORMATION);
+        return;
+    }
+    try {
+        string out(data);
+        boost::property_tree::ptree pt;
+        istringstream is(out);
+
+        boost::property_tree::read_json(is, pt);
+        rdata.id = pt.get<unsigned>("Id");
+        rdata.temp = pt.get<float>("Temp");
+        rdata.hum = pt.get<float>("Hum");
+    }
+    catch (...) {
+        m_log->local("[NEW_CLIENT]: Error parsing json data.", LOG_INFORMATION);
+        return;
+    }
+    if (!checkUser(rdata.id)) {
+        m_log->local("[NEW_CLIENT]: Bad ID!", LOG_ERROR);
+        return;
+    }
 
     try {
         m_db->connect(dbc->ip, dbc->user, dbc->passwd, dbc->base);
-        m_db->addToBase(12345678, 44.37, 90.33);
+        m_db->addToBase(rdata.id, rdata.temp, rdata.hum);
         m_db->close();
     }
     catch (const string &err) {

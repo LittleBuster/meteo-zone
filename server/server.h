@@ -18,6 +18,14 @@
 #include "tcpsocket.h"
 #include <vector>
 
+#define DATA_SIZE 255
+
+typedef struct {
+    unsigned id;
+    float temp;
+    float hum;
+} Data;
+
 
 class IServer: public virtual ITcpSocket
 {

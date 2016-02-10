@@ -67,13 +67,12 @@ void Sender::send(void)
             in_hum = 0.0f;
         }
     }
+    cout << "[OUT_TEMP]: " << out_temp << " [OUT_HUM]: " << out_hum << " [IN_TEMP]: " << in_temp << " [IN_HUM]: " << in_hum << endl;
 
     try {
         string out;
-        out = "{\"Id\": " + boost::lexical_cast<string>(msc->id) + ", \"OutTemp\": ";
-        out += boost::lexical_cast<string>(out_temp) + ", \"OutHum\": " + boost::lexical_cast<string>(out_hum);
-        out += ", \"InTemp\": " + boost::lexical_cast<string>(in_temp) + ", \"InHum\": ";
-        out += boost::lexical_cast<string>(in_hum) + "}";
+        out = "{\"Id\": " + boost::lexical_cast<string>(msc->id) + ", \"Temp\": ";
+        out += boost::lexical_cast<string>(out_temp) + ", \"Hum\": " + boost::lexical_cast<string>(out_hum) + "}";
 
         this->m_client->connect(msc->ip, msc->port);
         this->m_client->send((void *)out.c_str(), DATA_SIZE);
