@@ -16,6 +16,7 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <istream>
+#include <iostream>
 
 using namespace std;
 
@@ -68,6 +69,7 @@ void Server::newSession(shared_ptr<ITcpSocket> client)
         m_log->local("[NEW_CLIENT]: Bad ID!", LOG_ERROR);
         return;
     }
+    cout << "[NEW_CLIENT] id: " << rdata.id << " Temp: " << rdata.temp << " Hum: " << rdata.hum << "%." << endl;
 
     try {
         m_db->connect(dbc->ip, dbc->user, dbc->passwd, dbc->base);
