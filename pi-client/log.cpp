@@ -61,10 +61,15 @@ void Log::local(const string &message, LogType err_type)
     if (this->log_path == "")
         return;
 
-    ofstream log;
-    log.open(this->log_path, ios::out|ios::ate|ios::app);
-    log << msg << "\n";
-    log.close();
+    try {
+        ofstream log;
+        log.open(this->log_path, ios::out|ios::ate|ios::app);
+        log << msg << "\n";
+        log.close();
+    }
+    catch (...) {
+        cout << "Fail writing to log file." << endl;
+    }
 }
 
 void Log::remote(const string &message, LogType err_type)
@@ -75,10 +80,10 @@ void Log::remote(const string &message, LogType err_type)
     try {
         m_client->connect(remote_log.ip, remote_log.port);
         m_client->send(msg.c_str(), 255);
+        m_client->close();
     }
     catch (const string &err) {
         local("[REMOTE_LOG]: " + err, LOG_WARNING);
         return;
     }
-    m_client->close();
 }

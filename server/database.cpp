@@ -41,7 +41,6 @@ void Database::addToBase(unsigned id, float temp, float hum)
     strftime(dt, 15, "%T", timeinfo);
     req += string(dt) + "')";
 
-    cout << req << endl;
     int qs = mysql_query(conn, req.c_str());
     if (qs != 0)
         throw string("Fail insert record to database.");
