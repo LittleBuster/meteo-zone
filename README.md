@@ -39,3 +39,7 @@ sudo nano /etc/meteo-users.cfg #add users id in column
 sudo nano /etc/meteosrv.cfg
 #add to autorun /usr/share/meteosrv/mzsrv
 ````
+<br>
+Developed by: <b>Sergey Denisov</b>
+<br>
+Email: <b>DenisovS21@gmail.com</b>
