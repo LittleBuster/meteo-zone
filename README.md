@@ -26,18 +26,19 @@ nano /etc/meteo.cfg
 <h2>Meteo server</h2><br>
 <b>Depedencies (CentOS):</b>
 ````
-yum install gcc-c++ boost boost-devel mariadb mariadb-devel
+yum install clang cmake boost-system boost-devel mariadb mariadb-devel
 ````
 <b>Installation:</b>
 ````
 git clone https://github.com/LittleBuster/meteo-zone.git
 cd meteo-zone
 cd server
-make
-sudo make install
-sudo nano /etc/meteo-users.cfg #add users id in column
-sudo nano /etc/meteosrv.cfg
-#add to autorun /usr/share/meteosrv/mzsrv
+mkdir build && cd build
+cmake .. && make
+make install
+nano /etc/meteo-users.cfg #add users id in column
+nano /etc/meteosrv.cfg
+#add to autorun /usr/share/meteosrv/mzserver and "chmod +x mzserver"
 ````
 <br>
 Developed by: <b>Sergey Denisov</b>

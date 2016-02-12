@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 project(mzserver)
 
 set(Boost_USE_MULTITHREADED ON)
-find_package(Boost COMPONENTS system thread REQUIRED)
+find_package(Boost COMPONENTS system REQUIRED)
 
 include_directories(".")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pedantic -Wall -O2")
