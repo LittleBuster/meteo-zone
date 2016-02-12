@@ -15,6 +15,7 @@
 #include "tcpsocket.h"
 #include "configs.h"
 #include "log.h"
+#include "lcd.h"
 #include <dht22.h>
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
@@ -40,6 +41,7 @@ private:
     shared_ptr<IDHT22> m_dht_out;
     shared_ptr<IDHT22> m_dht_in;
     shared_ptr<IConfigs> m_cfg;
+    shared_ptr<ILCD> m_lcd;
     shared_ptr<ILog> m_log;
     io_service io;
     shared_ptr<deadline_timer> timer;
@@ -49,8 +51,8 @@ private:
     void send(void);
 
 public:
-    Sender(shared_ptr<ITcpSocket> client, shared_ptr<IDHT22> dht_out, shared_ptr<IDHT22> dht_in,
-           shared_ptr<IConfigs> cfg, shared_ptr<ILog> log);
+    Sender(const shared_ptr<ITcpSocket> &client, const shared_ptr<IDHT22> &dht_out, const shared_ptr<IDHT22> &dht_in,
+           const shared_ptr<IConfigs> &cfg, const shared_ptr<ILCD> &lcd, const shared_ptr<ILog> &log);
 
     inline void setInterval(unsigned seconds) {
         this->interval = seconds;

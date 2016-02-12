@@ -19,7 +19,7 @@ TcpSocket::TcpSocket()
     this->s_client = make_shared<tcp::socket>(io_service);
 }
 
-TcpSocket::TcpSocket(shared_ptr<tcp::socket> parent_sock)
+TcpSocket::TcpSocket(const shared_ptr<tcp::socket> &parent_sock)
 {
     this->s_client = parent_sock;
 }

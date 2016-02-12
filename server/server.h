@@ -45,7 +45,7 @@ private:
     bool checkUser(unsigned user);
 
 public:
-    Server(shared_ptr<ILog> log, shared_ptr<IDatabase> db, shared_ptr<IConfigs> cfg);
+    Server(const shared_ptr<ILog> &log, const shared_ptr<IDatabase> &db, const shared_ptr<IConfigs> &cfg);
 
     /*
      * New client connection session

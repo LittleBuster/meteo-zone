@@ -10,11 +10,13 @@ SOURCES += main.cpp \
     log.cpp \
     tcpsocket.cpp \
     configs.cpp \
-    sender.cpp
+    sender.cpp \
+    lcd.cpp
 
 HEADERS += \
     app.h \
     log.h \
     tcpsocket.h \
     configs.h \
-    sender.h
+    sender.h \
+    lcd.h

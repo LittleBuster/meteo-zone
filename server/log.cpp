@@ -45,7 +45,7 @@ string Log::makeLogMsg(const string &msg, LogType type)
     return out;
 }
 
-Log::Log(shared_ptr<ITcpSocket> client)
+Log::Log(const shared_ptr<ITcpSocket> &client)
 {
     this->m_client = client;
     this->setLogFile("");

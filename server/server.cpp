@@ -30,7 +30,8 @@ bool Server::checkUser(unsigned user)
     return false;
 }
 
-Server::Server(shared_ptr<ILog> log, shared_ptr<IDatabase> db, shared_ptr<IConfigs> cfg): TcpSocket()
+Server::Server(const shared_ptr<ILog> &log, const shared_ptr<IDatabase> &db, const shared_ptr<IConfigs> &cfg):
+    TcpSocket()
 {
     this->m_log = log;
     this->m_db = db;

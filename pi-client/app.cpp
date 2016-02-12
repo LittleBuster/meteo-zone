@@ -13,7 +13,7 @@
 #include <boost/thread.hpp>
 
 
-App::App(shared_ptr<ISender> sender, shared_ptr<IConfigs> cfg, shared_ptr<ILog> log)
+App::App(const shared_ptr<ISender> &sender, const shared_ptr<IConfigs> &cfg, const shared_ptr<ILog> &log)
 {
     m_sender = sender;
     m_cfg = cfg;

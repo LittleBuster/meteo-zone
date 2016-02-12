@@ -40,7 +40,7 @@ private:
 public:
     TcpSocket();
 
-    TcpSocket(shared_ptr<tcp::socket> parent_sock);
+    TcpSocket(const shared_ptr<tcp::socket> &parent_sock);
 
     /**
      * Connect to remote socket

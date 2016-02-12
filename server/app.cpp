@@ -13,14 +13,14 @@
 #include <iostream>
 
 
-App::App(shared_ptr<ILog> log, shared_ptr<IConfigs> cfg, shared_ptr<IServer> server)
+App::App(const shared_ptr<ILog> &log, const shared_ptr<IConfigs> &cfg, const shared_ptr<IServer> &server)
 {
     this->m_log = log;
     this->m_cfg = cfg;
     this->m_server = server;
 }
 
-int App::start()
+int App::start(void)
 {
     cout << "Starting weather server..." << endl;
     m_log->setLogFile("/var/log/meteosrv.log");

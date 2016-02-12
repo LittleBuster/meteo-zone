@@ -28,7 +28,7 @@ private:
     shared_ptr<IServer> m_server;
 
 public:
-    App(shared_ptr<ILog> log, shared_ptr<IConfigs> cfg, shared_ptr<IServer> server);
+    App(const shared_ptr<ILog> &log, const shared_ptr<IConfigs> &cfg, const shared_ptr<IServer> &server);
 
     int start(void);
 };

@@ -42,6 +42,8 @@ void Configs::load(const string &filename)
         rlc.port = pt.get<unsigned>("RemoteLog.Port");
         sc.out = pt.get<unsigned>("Sensors.Out");
         sc.in = pt.get<unsigned>("Sensors.In");
+        lc.port = pt.get<unsigned>("LCD.Port");
+        lc.i2c = pt.get<unsigned>("LCD.i2c");
     }
     catch (...) {
         ifs.close();
@@ -61,4 +63,6 @@ void Configs::print(void)
     cout << "RemoteLogPort: " << rlc.port << endl;
     cout << "SensorsOut: " << sc.out << endl;
     cout << "SensorsIn: " << sc.in << endl;
+    cout << "LCDPort: " << lc.port << endl;
+    cout << "LCDi2c: " << lc.i2c << endl;
 }

@@ -52,7 +52,7 @@ private:
     string makeLogMsg(const string &msg, LogType type);
 
 public:
-    Log(shared_ptr<ITcpSocket> client);
+    Log(const shared_ptr<ITcpSocket> &client);
 
     /**
      * Set remote log server configs

@@ -15,6 +15,7 @@
 #include "log.h"
 #include "sender.h"
 #include "tcpsocket.h"
+#include "lcd.h"
 #include <dht22.h>
 
 
@@ -24,8 +25,9 @@ int main(void)
     auto dht_in = make_shared<DHT22>();
     auto cfg = make_shared<Configs>();
     auto client = make_shared<TcpSocket>();
+    auto lcd = make_shared<LCD>();
     auto log = make_shared<Log>(client);
-    auto sender = make_shared<Sender>(client, dht_out, dht_in, cfg, log);
+    auto sender = make_shared<Sender>(client, dht_out, dht_in, cfg, lcd, log);
 
     auto app = make_shared<App>(sender, cfg, log);
     return app->start();
