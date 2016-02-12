@@ -4,7 +4,7 @@ Meteo-zone weather service.<br><br>
 <img src="http://s017.radikal.ru/i417/1601/c3/d44363bc983a.png" /><br>
 <b>Depedencies:</b>
 ````
-apt-get install libboost-thread1.55.0 libboost-thread1.55-dev libboost-system1.55.0 libboost-system1.55-dev
+apt-get install libboost-thread1.55.0 libboost-thread1.55-dev libboost-system1.55.0 libboost-system1.55-dev wiringpi
 ````
 <b>DHT22 library</b>
 ````
