@@ -4,11 +4,12 @@ LDFLAGS=-lboost_system -lpthread
 LDFLAGS2=-lmysqlclient
 LDFLAGS3=-lboost_thread
 LDFLAGS4=-ldht22
+LDFLAGS5=-lwiringPi -lwiringPiDev
 
 all: app
 
 app: log.o sender.o configs.o tcpsocket.o app.o main.o
-	$(CC) log.o configs.o sender.o tcpsocket.o app.o main.o -o mzclient $(CXXFLAGS) $(LDFLAGS) $(LDFLAGS2) $(LDFLAGS3) $(LDFLAGS4)
+	$(CC) log.o configs.o sender.o tcpsocket.o app.o main.o -o mzclient $(CXXFLAGS) $(LDFLAGS) $(LDFLAGS2) $(LDFLAGS3) $(LDFLAGS4) $(LDFLAGS5)
 
 log.o: log.cpp
 	$(CC) log.cpp -c $(CXXFLAGS)
@@ -18,6 +19,9 @@ configs.o: configs.cpp
 
 sender.o: sender.cpp
 	$(CC) sender.cpp -c $(CXXFLAGS) $(LDFLAGS4)
+
+lcd.o: lcd.cpp
+	$(CC) lcd.cpp -c $(CXXFLAGS) $(LDFLAGS5)
 
 tcpsocket.o: tcpsocket.cpp
 	$(CC) tcpsocket.cpp -c $(CXXFLAGS) $(LDFLAGS)
