@@ -53,7 +53,10 @@ void Sender::start(void)
 void Sender::send(void)
 {
     bool isRead = false;
-    float out_temp, out_hum, in_temp, in_hum;
+    float out_temp = 0.0f;
+    float out_hum = 0.0f;
+    float in_temp = 0.0f;
+    float in_hum = 0.0f;
     auto msc = m_cfg->getMeteoCfg();
 
     for (unsigned i = 0; i < 5; i++) {

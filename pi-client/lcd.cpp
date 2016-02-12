@@ -1,7 +1,10 @@
 #include "lcd.h"
 #include <pcf8574.h>
 #include <wiringPi.h>
-#include <lcd.h>
+#include "/usr/include/lcd.h"
+#include <string>
+
+using namespace std;
 
 
 void LCD::init(unsigned port_num, unsigned i2c_addr)
