@@ -22,7 +22,7 @@ App::App(const shared_ptr<ISender> &sender, const shared_ptr<IConfigs> &cfg, con
 
 int App::start(void)
 {
-    cout << "Starting weather server..." << endl;
+    cout << "Starting meteo client..." << endl;
     m_log->setLogFile("/var/log/meteo.log");
 
     try {
