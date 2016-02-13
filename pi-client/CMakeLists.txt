@@ -12,5 +12,5 @@ set(SRC_LIST app.cpp main.cpp log.cpp configs.cpp sender.cpp tcpsocket.cpp lcd.c
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} -ldht22 -lwiringPi -lwiringPiDev)
 
-install (FILES build/mzclient DESTINATION /usr/share/mete/)
+install (FILES build/mzclient DESTINATION /usr/share/meteo/)
 install (FILES meteo.cfg DESTINATION /etc/)
