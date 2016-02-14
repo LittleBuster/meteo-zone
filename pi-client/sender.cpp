@@ -22,6 +22,7 @@ Sender::Sender(const shared_ptr<ITcpSocket> &client, const shared_ptr<IDHT22> &d
     this->m_lcd = lcd;
     this->m_log = log;
     this->is_inside = false;
+    this->interval = 0;
 }
 
 void Sender::start(void)
