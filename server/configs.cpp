@@ -50,7 +50,7 @@ void Configs::load(const string &filename)
     ifs.close();
 }
 
-void Configs::print()
+void Configs::print() const
 {
     cout << "Configs:" << endl << "------------------------" << endl;
     cout << "MeteoServerPort: " << msc.port << endl;

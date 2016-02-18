@@ -43,12 +43,12 @@ typedef struct {
 class IConfigs
 {
 public:
-    virtual MeteoServerCfg* getMeteoCfg(void) = 0;
-    virtual RemoteLogCfg* getRLogCfg(void) = 0;
-    virtual SensorsCfg* getSensorsCfg(void) = 0;
-    virtual LcdCfg* getLcdCfg(void) = 0;
+    virtual const MeteoServerCfg* getMeteoCfg(void) const = 0;
+    virtual const RemoteLogCfg* getRLogCfg(void) const = 0;
+    virtual const SensorsCfg* getSensorsCfg(void) const = 0;
+    virtual const LcdCfg* getLcdCfg(void) const = 0;
     virtual void load(const string &filename) = 0;
-    virtual void print(void) = 0;
+    virtual void print(void) const = 0;
 };
 
 
@@ -61,19 +61,19 @@ private:
     LcdCfg lc;
 
 public:
-    inline MeteoServerCfg* getMeteoCfg(void) {
+    inline const MeteoServerCfg* getMeteoCfg(void) const {
         return &msc;
     }
 
-    inline RemoteLogCfg* getRLogCfg(void) {
+    inline const RemoteLogCfg* getRLogCfg(void) const {
         return &rlc;
     }
 
-    inline SensorsCfg* getSensorsCfg(void) {
+    inline const SensorsCfg* getSensorsCfg(void) const {
         return &sc;
     }
 
-    inline LcdCfg* getLcdCfg(void) {
+    inline const LcdCfg* getLcdCfg(void) const {
         return &lc;
     }
 
@@ -85,7 +85,7 @@ public:
     /*
      * Print loading configs for debugging
      */
-    void print(void);
+    void print(void) const;
 };
 
 

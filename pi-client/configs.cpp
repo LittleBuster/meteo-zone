@@ -52,7 +52,7 @@ void Configs::load(const string &filename)
     ifs.close();
 }
 
-void Configs::print(void)
+void Configs::print(void) const
 {
     cout << "Configs:" << endl << "------------------------" << endl;
     cout << "MeteoServerId: " << msc.id << endl;

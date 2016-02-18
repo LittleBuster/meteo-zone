@@ -38,11 +38,11 @@ typedef struct {
 class IConfigs
 {
 public:
-    virtual MeteoServerCfg* getMeteoCfg(void) = 0;
-    virtual RemoteLogCfg* getRLogCfg(void) = 0;
-    virtual DatabaseCfg* getDatabaseCfg(void) = 0;
+    virtual const MeteoServerCfg* getMeteoCfg(void) const = 0;
+    virtual const RemoteLogCfg* getRLogCfg(void) const = 0;
+    virtual const DatabaseCfg* getDatabaseCfg(void) const = 0;
     virtual void load(const string &filename) = 0;
-    virtual void print(void) = 0;
+    virtual void print(void) const = 0;
 };
 
 
@@ -54,15 +54,15 @@ private:
     DatabaseCfg dbc;
 
 public:
-    inline MeteoServerCfg* getMeteoCfg(void) {
+    inline const MeteoServerCfg* getMeteoCfg(void) const {
         return &msc;
     }
 
-    inline RemoteLogCfg* getRLogCfg(void) {
+    inline const RemoteLogCfg* getRLogCfg(void) const {
         return &rlc;
     }
 
-    inline DatabaseCfg* getDatabaseCfg(void) {
+    inline const DatabaseCfg* getDatabaseCfg(void) const {
         return &dbc;
     }
 
@@ -74,7 +74,7 @@ public:
     /*
      * Print loading configs for debugging
      */
-    void print(void);
+    void print(void) const;
 };
 
 

@@ -30,15 +30,14 @@ bool Server::checkUser(unsigned user)
     return false;
 }
 
-Server::Server(const shared_ptr<ILog> &log, const shared_ptr<IDatabase> &db, const shared_ptr<IConfigs> &cfg):
-    TcpSocket()
+Server::Server(const shared_ptr<ILog> &log, const shared_ptr<IDatabase> &db, const shared_ptr<IConfigs> &cfg)
 {
     this->m_log = log;
     this->m_db = db;
     this->m_cfg = cfg;
 }
 
-void Server::newSession(shared_ptr<ITcpSocket> client)
+void Server::newSession(shared_ptr<ITcpClient> client)
 {
     Data rdata;
     char data[DATA_SIZE];   
@@ -83,9 +82,14 @@ void Server::newSession(shared_ptr<ITcpSocket> client)
     }
 }
 
-void Server::acceptError(void)
+void Server::acceptError(void) const
 {
     m_log->local("[SERVER]: Fail accepting client.", LOG_INFORMATION);
+}
+
+void Server::start(unsigned port)
+{
+    TcpServer::start(port);
 }
 
 void Server::loadUsers(const string &filename)

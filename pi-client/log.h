@@ -14,7 +14,7 @@
 
 #include <string>
 #include <memory>
-#include <tcpsocket.h>
+#include <tcpclient.h>
 
 using namespace std;
 
@@ -45,14 +45,14 @@ public:
 class Log: public ILog
 {
 private:
-    shared_ptr<ITcpSocket> m_client;
+    shared_ptr<ITcpClient> m_client;
     RemoteLog remote_log;
     string log_path;
 
     string makeLogMsg(const string &msg, LogType type);
 
 public:
-    Log(const shared_ptr<ITcpSocket> &client);
+    explicit Log(const shared_ptr<ITcpClient> &client);
 
     /**
      * Set remote log server configs

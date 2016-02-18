@@ -9,22 +9,22 @@
  * of the Licence, or (at your option) any later version.
  */
 
-#include "tcpsocket.h"
+#include "tcpclient.h"
 #include <stdlib.h>
 #include <boost/lexical_cast.hpp>
 
 
-TcpSocket::TcpSocket()
+TcpClient::TcpClient()
 {
     this->s_client = make_shared<tcp::socket>(io_service);
 }
 
-TcpSocket::TcpSocket(const shared_ptr<tcp::socket> &parent_sock)
+TcpClient::TcpClient(const shared_ptr<tcp::socket> &parent_sock)
 {
     this->s_client = parent_sock;
 }
 
-void TcpSocket::connect(const string &ip, unsigned port)
+void TcpClient::connect(const string &ip, unsigned port)
 {
     boost::system::error_code err;
 
@@ -34,7 +34,7 @@ void TcpSocket::connect(const string &ip, unsigned port)
         throw string("Can not connect to server.");
 }
 
-void TcpSocket::send(const void *data, size_t len) const
+void TcpClient::send(const void *data, size_t len)
 {
     boost::system::error_code error;
 
@@ -43,7 +43,7 @@ void TcpSocket::send(const void *data, size_t len) const
         throw string("Fail sending data.");
 }
 
-void TcpSocket::recv(void *data, size_t len)
+void TcpClient::recv(void *data, size_t len)
 {
     size_t r_len;
     boost::system::error_code error;
@@ -58,7 +58,7 @@ void TcpSocket::recv(void *data, size_t len)
         throw string("Fail receiving data. Bad data length.");
 }
 
-void TcpSocket::close()
+void TcpClient::close()
 {
     this->s_client->close();
 }

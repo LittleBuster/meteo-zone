@@ -24,7 +24,7 @@ private:
     shared_ptr<ILog> m_log;
 
 public:
-    App(const shared_ptr<ISender> &sender, const shared_ptr<IConfigs> &cfg, const shared_ptr<ILog> &log);
+    explicit App(const shared_ptr<ISender> &sender, const shared_ptr<IConfigs> &cfg, const shared_ptr<ILog> &log);
 
     int start(void);
 };

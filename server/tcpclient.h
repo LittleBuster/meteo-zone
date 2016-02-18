@@ -13,37 +13,36 @@
 #define __TCPSOCKET_H__
 
 #include <memory>
-#include <thread>
-#include <boost/bind.hpp>
 #include <boost/asio.hpp>
 
 using namespace std;
 using boost::asio::ip::tcp;
 
 
-class ITcpSocket
+class ITcpClient
 {
 public:
     virtual void connect(const string &ip, unsigned port) = 0;
     virtual void send(const void *data, size_t len) const = 0;
-    virtual void recv(void *data, size_t len) = 0;
-    virtual void close(void) = 0;
+    virtual void recv(void *data, size_t len) const = 0;
+    virtual void close(void) const = 0;
 };
 
 
-class TcpSocket: public ITcpSocket
+class TcpClient: public ITcpClient
 {
 private:
     boost::asio::io_service io_service;
     shared_ptr<tcp::socket> s_client;
+    shared_ptr<tcp::acceptor> acpt;
 
 public:
-    TcpSocket();
+    explicit TcpClient();
 
-    TcpSocket(const shared_ptr<tcp::socket> &parent_sock);
+    explicit TcpClient(const shared_ptr<tcp::socket> &parent_client);
 
     /**
-     * Connect to remote socket
+     * Connect to remote server
      * @ip: remote ip address
      * @port: remote socket port
      *
@@ -67,12 +66,12 @@ public:
      *
      * throw: error if fail receiving data
      */
-    void recv(void *data, size_t len);
+    void recv(void *data, size_t len) const;
 
     /*
      * Close connection
      */
-    void close(void);
+    void close(void) const;
 };
 
 

@@ -13,9 +13,10 @@
 #define __SERVER_H__
 
 #include "log.h"
+#include "tcpserver.h"
 #include "database.h"
 #include "configs.h"
-#include "tcpsocket.h"
+#include "tcpclient.h"
 #include <vector>
 
 #define DATA_SIZE 255
@@ -27,14 +28,14 @@ typedef struct {
 } Data;
 
 
-class IServer: public virtual ITcpSocket
+class IServer: public ITcpServer
 {
 public:
     virtual void loadUsers(const string &filename) = 0;
 };
 
 
-class Server final: public IServer, public TcpSocket
+class Server final: public IServer, public TcpServer
 {
 private:
     shared_ptr<ILog> m_log;
@@ -42,23 +43,42 @@ private:
     shared_ptr<IConfigs> m_cfg;
     vector<unsigned> users;
 
+    /**
+     * Check new user in local base
+     * @user: new user id
+     *
+     * returns: false if user not exists
+     * returns: true if user was found
+     */
     bool checkUser(unsigned user);
 
 public:
-    Server(const shared_ptr<ILog> &log, const shared_ptr<IDatabase> &db, const shared_ptr<IConfigs> &cfg);
+    explicit Server(const shared_ptr<ILog> &log, const shared_ptr<IDatabase> &db, const shared_ptr<IConfigs> &cfg);
 
     /*
      * New client connection session
      */
-    virtual void newSession(shared_ptr<ITcpSocket> client) override final;
+    virtual void newSession(shared_ptr<ITcpClient> client) override final;
 
     /*
      * Accepting new client error signal
      */
-    virtual void acceptError(void) override final;
+    virtual void acceptError(void) const override final;
 
-    /*
+    /**
+     * Start local servrt
+     * @port: binding local port
+     *
+     * throw: error if fail binding local ip and port
+     */
+    virtual void start(unsigned port) override final;
+
+    /**
      * Loading user list
+     * @filename: text file with users ids list
+     *
+     * throw: error if file not found
+     * throw: error if users list incorrect
      */
     void loadUsers(const string &filename);
 };

@@ -22,7 +22,7 @@ int main()
 {
     auto db = make_shared<Database>();
     auto cfg = make_shared<Configs>();
-    auto client = make_shared<TcpSocket>();
+    auto client = make_shared<TcpClient>();
     auto log = make_shared<Log>(client);
     auto server = make_shared<Server>(log, db, cfg);
 

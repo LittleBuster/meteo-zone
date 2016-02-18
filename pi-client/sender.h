@@ -12,7 +12,7 @@
 #ifndef __SENDER_H__
 #define __SENDER_H__
 
-#include "tcpsocket.h"
+#include "tcpclient.h"
 #include "configs.h"
 #include "log.h"
 #include "lcd.h"
@@ -37,7 +37,7 @@ public:
 class Sender: public ISender
 {
 private:
-    shared_ptr<ITcpSocket> m_client;
+    shared_ptr<ITcpClient> m_client;
     shared_ptr<IDHT22> m_dht_out;
     shared_ptr<IDHT22> m_dht_in;
     shared_ptr<IConfigs> m_cfg;
@@ -51,7 +51,7 @@ private:
     void send(void);
 
 public:
-    Sender(const shared_ptr<ITcpSocket> &client, const shared_ptr<IDHT22> &dht_out, const shared_ptr<IDHT22> &dht_in,
+    explicit Sender(const shared_ptr<ITcpClient> &client, const shared_ptr<IDHT22> &dht_out, const shared_ptr<IDHT22> &dht_in,
            const shared_ptr<IConfigs> &cfg, const shared_ptr<ILCD> &lcd, const shared_ptr<ILog> &log);
 
     inline void setInterval(unsigned seconds) {

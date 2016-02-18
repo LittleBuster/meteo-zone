@@ -32,7 +32,7 @@ void LCD::init(unsigned port_num, unsigned i2c_addr)
     lcdHome(fd);
 }
 
-void LCD::clear()
+void LCD::clear() const
 {
     lcdClear(fd);
 }

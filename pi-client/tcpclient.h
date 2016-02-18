@@ -21,39 +21,26 @@ using namespace std;
 using boost::asio::ip::tcp;
 
 
-class ITcpSocket
+class ITcpClient
 {
 public:
-    virtual void newSession(shared_ptr<ITcpSocket> client) = 0;
-    virtual void acceptError(void) = 0;
     virtual void connect(const string &ip, unsigned port) = 0;
-    virtual void send(const void *data, size_t len) const = 0;
-    virtual void recv(void *data, size_t len) = 0;
-    virtual void start(unsigned port) = 0;
-    virtual void close(void) = 0;
+    virtual void send(const void *data, size_t len) = 0;
+    virtual void recv(void *data, size_t len) const = 0;
+    virtual void close(void) const = 0;
 };
 
 
-class TcpSocket: public virtual ITcpSocket
+class TcpClient: public ITcpClient
 {
 private:
     boost::asio::io_service io_service;
     shared_ptr<tcp::socket> s_client;
 
 public:
-    TcpSocket();
+    explicit TcpClient();
 
-    TcpSocket(const shared_ptr<tcp::socket> &parent_sock);
-
-    /*
-     * New client connection session
-     */
-    virtual void newSession(shared_ptr<ITcpSocket> client) { };
-
-    /*
-     * Accepting new client error signal
-     */
-    virtual void acceptError(void) { };
+    explicit TcpClient(const shared_ptr<tcp::socket> &parent_sock);
 
     /**
      * Connect to remote socket
@@ -71,7 +58,7 @@ public:
      *
      * throw: error if fail sending data
      */
-    void send(const void *data, size_t len) const;
+    void send(const void *data, size_t len);
 
     /**
      * Receive data from server
@@ -80,20 +67,12 @@ public:
      *
      * throw: error if fail receiving data
      */
-    void recv(void *data, size_t len);
-
-    /**
-     * Binding tcp server
-     * @port: local tcp port
-     *
-     * throw: error if fail binding
-     */
-    void start(unsigned port);
+    void recv(void *data, size_t len) const;
 
     /*
      * Close connection
      */
-    void close(void);
+    void close(void) const;
 };
 
 

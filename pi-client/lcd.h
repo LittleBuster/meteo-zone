@@ -17,7 +17,7 @@ class ILCD
 {
 public:
     virtual void init(unsigned port_num, unsigned i2c_addr) = 0;
-    virtual void clear(void) = 0;
+    virtual void clear(void) const = 0;
     virtual void showData(float out_temp, float out_hum, float in_temp, float in_hum) = 0;
 };
 
@@ -38,7 +38,7 @@ public:
     /*
      * Clear display
      */
-    void clear(void);
+    void clear(void) const;
 
     /*
      * Show meteo information

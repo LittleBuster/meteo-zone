@@ -11,7 +11,8 @@ SOURCES += main.cpp \
     configs.cpp \
     app.cpp \
     server.cpp \
-    tcpsocket.cpp
+    tcpserver.cpp \
+    tcpclient.cpp
 
 HEADERS += \
     log.h \
@@ -19,4 +20,5 @@ HEADERS += \
     configs.h \
     app.h \
     server.h \
-    tcpsocket.h
+    tcpserver.h \
+    tcpclient.h

@@ -12,7 +12,7 @@
 #include "sender.h"
 
 
-Sender::Sender(const shared_ptr<ITcpSocket> &client, const shared_ptr<IDHT22> &dht_out, const shared_ptr<IDHT22> &dht_in,
+Sender::Sender(const shared_ptr<ITcpClient> &client, const shared_ptr<IDHT22> &dht_out, const shared_ptr<IDHT22> &dht_in,
                const shared_ptr<IConfigs> &cfg, const shared_ptr<ILCD> &lcd, const shared_ptr<ILog> &log)
 {
     this->m_client = client;
