@@ -5,6 +5,7 @@ set(Boost_USE_MULTITHREADED ON)
 find_package(Boost COMPONENTS system REQUIRED)
 
 include_directories(".")
+set(CMAKE_CXX_COMPILER clang++)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -march=native -pedantic -Wall -O2")
 set(SRC_LIST app.cpp main.cpp log.cpp configs.cpp server.cpp tcpsocket.cpp database.cpp)
 
