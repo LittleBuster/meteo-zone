@@ -54,7 +54,7 @@ public:
      *
      * throw: error if fail binding
      */
-    void start(unsigned port);
+    virtual void start(unsigned port);
 };
 
 

@@ -80,7 +80,7 @@ public:
      * throw: error if file not found
      * throw: error if users list incorrect
      */
-    void loadUsers(const string &filename);
+    void loadUsers(const string &filename) override;
 };
 
 
