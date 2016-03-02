@@ -15,15 +15,15 @@
 void TcpServer::start(unsigned port)
 {
     try {
-        acpt = make_shared<tcp::acceptor>(io_service, tcp::endpoint(tcp::v4(), port));
+        _acpt = make_shared<tcp::acceptor>(_service, tcp::endpoint(tcp::v4(), port));
     }
     catch (...) {
         throw string("Binding ip address and port fail.");
     }
     for (;;) {
-        auto sock = make_shared<tcp::socket>(io_service);
+        auto sock = make_shared<tcp::socket>(_service);
         try {
-            acpt->accept(*sock);
+            _acpt->accept(*sock);
         }
         catch (...) {
             this->acceptError();

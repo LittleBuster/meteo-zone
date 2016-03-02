@@ -12,11 +12,11 @@
 #ifndef __SERVER_H__
 #define __SERVER_H__
 
-#include "log.h"
-#include "tcpserver.h"
+#include "net/tcpserver.h"
 #include "database.h"
 #include "configs.h"
-#include "tcpclient.h"
+#include "net/tcpclient.h"
+#include <logger/log.h>
 #include <vector>
 
 #define DATA_SIZE 255
@@ -38,10 +38,12 @@ public:
 class Server final: public IServer, public TcpServer
 {
 private:
-    shared_ptr<ILog> m_log;
-    shared_ptr<IDatabase> m_db;
-    shared_ptr<IConfigs> m_cfg;
-    vector<unsigned> users;
+    shared_ptr<logger::ILog> _log;
+    shared_ptr<IDatabase> _db;
+    shared_ptr<IConfigs> _cfg;
+    vector<unsigned> _users;
+
+    using IServer::start;
 
     /**
      * Check new user in local base
@@ -50,10 +52,10 @@ private:
      * returns: false if user not exists
      * returns: true if user was found
      */
-    bool checkUser(unsigned user);
+    bool checkUser(unsigned user) const;
 
 public:
-    explicit Server(const shared_ptr<ILog> &log, const shared_ptr<IDatabase> &db, const shared_ptr<IConfigs> &cfg);
+    explicit Server(const shared_ptr<logger::ILog> &log, const shared_ptr<IDatabase> &db, const shared_ptr<IConfigs> &cfg);
 
     /*
      * New client connection session
@@ -80,7 +82,7 @@ public:
      * throw: error if file not found
      * throw: error if users list incorrect
      */
-    void loadUsers(const string &filename) override;
+    void loadUsers(const string &filename);
 };
 
 

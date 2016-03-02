@@ -13,7 +13,7 @@
 #define __DATABASE_H__
 
 #include <string>
-#include <mysql/mysql.h>
+#include <postgresql/libpq-fe.h>
 
 using namespace std;
 
@@ -23,15 +23,13 @@ class IDatabase
 public:
     virtual void connect(const string &ip, const string &user, const string &passwd, const string &base) = 0;
     virtual void addToBase(unsigned id, float temp, float hum) = 0;
-    virtual void close(void) = 0;
 };
 
 
 class Database: public IDatabase
 {
 private:
-    MYSQL mysql;
-    MYSQL *conn;
+    PGconn *_conn;
 
 public:
     /**
@@ -54,11 +52,6 @@ public:
      * throw: error if fail record addition to database
      */
     void addToBase(unsigned id, float temp, float hum);
-
-    /*
-     * Disconnection from database
-     */
-    void close(void);
 };
 
 

@@ -12,23 +12,23 @@
 #ifndef __APP_H__
 #define __APP_H__
 
-#include "log.h"
+#include <logger/log.h>
 #include "database.h"
 #include "configs.h"
 #include "server.h"
-#include "tcpclient.h"
+#include "net/tcpclient.h"
 
 
 class App
 {
 private:
-    shared_ptr<ILog> m_log;
-    shared_ptr<IDatabase> m_db;
-    shared_ptr<IConfigs> m_cfg;
-    shared_ptr<IServer> m_server;
+    shared_ptr<logger::ILog> _log;
+    shared_ptr<IDatabase> _db;
+    shared_ptr<IConfigs> _cfg;
+    shared_ptr<IServer> _server;
 
 public:
-    explicit App(const shared_ptr<ILog> &log, const shared_ptr<IConfigs> &cfg, const shared_ptr<IServer> &server);
+    explicit App(const shared_ptr<logger::ILog> &log, const shared_ptr<IConfigs> &cfg, const shared_ptr<IServer> &server);
 
     int start(void);
 };

@@ -16,9 +16,9 @@
 
 void Database::connect(const string &ip, const string &user, const string &passwd, const string &base)
 {
-    mysql_init(&mysql);
-    conn = mysql_real_connect(&mysql, ip.c_str(), user.c_str(), passwd.c_str(), base.c_str(), 3306, NULL, 0);
-    if (conn == NULL)
+    string connStr = "dbname=" + base + " user=" + user + " password=" + passwd + " hostaddr=" + ip + " port=5432";
+    _conn = PQconnectdb(connStr.c_str());
+    if (PQstatus(_conn) == CONNECTION_BAD)
         throw string("Can not connect to database.");
 }
 
@@ -41,13 +41,7 @@ void Database::addToBase(unsigned id, float temp, float hum)
     strftime(dt, 15, "%T", timeinfo);
     req += string(dt) + "')";
 
-    int qs = mysql_query(conn, req.c_str());
-    if (qs != 0)
+    PGresult *res = PQexec(_conn, req.c_str());
+    if (PQresultStatus(res) != PGRES_COMMAND_OK)
         throw string("Fail insert record to database.");
-}
-
-void Database::close()
-{
-    mysql_close(conn);
-    mysql_close(&mysql);
 }

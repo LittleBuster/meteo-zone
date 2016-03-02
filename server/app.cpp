@@ -11,41 +11,43 @@
 
 #include "app.h"
 #include <iostream>
+#include <boost/lexical_cast.hpp>
 
 
-App::App(const shared_ptr<ILog> &log, const shared_ptr<IConfigs> &cfg, const shared_ptr<IServer> &server)
+App::App(const shared_ptr<logger::ILog> &log, const shared_ptr<IConfigs> &cfg, const shared_ptr<IServer> &server)
 {
-    this->m_log = log;
-    this->m_cfg = cfg;
-    this->m_server = server;
+    this->_log = log;
+    this->_cfg = cfg;
+    this->_server = server;
 }
 
 int App::start(void)
 {
     cout << "Starting weather server..." << endl;
-    m_log->setLogFile("/var/log/meteosrv.log");
+    _log->setLogFile("/var/log/meteosrv.log");
     cout << "Log file setup." << endl;
 
     try {
-        m_cfg->load("/etc/meteosrv.cfg");
+        _cfg->load("/etc/meteosrv.cfg");
     }
     catch (const string &err) {
-        m_log->local("[CONFIGS]: " + err, LOG_ERROR);
+        _log->local("[CONFIGS]: " + err, logger::LOG_ERROR);
         return -1;
     }
 
-    auto rlc = m_cfg->getRLogCfg();
-    auto msc = m_cfg->getMeteoCfg();
-    m_log->setRemoteLogCfg(rlc->ip, rlc->port);
+    auto rlc = _cfg->getRLogCfg();
+    auto msc = _cfg->getMeteoCfg();
+    auto dbc = _cfg->getDatabaseCfg();
+    _log->setRemoteLogCfg(rlc->ip, rlc->port, boost::lexical_cast<string>(dbc->id));
     cout << "Server configs loaded." << endl;
 
     try {
-        m_server->loadUsers("/etc/meteo-users.cfg");
+        _server->loadUsers("/etc/meteo-users.cfg");
         cout << "Users list loaded." << endl;
-        m_server->start(msc->port);
+        _server->start(msc->port);
     }
     catch (const string &err) {
-        m_log->local("[SERVER]: " + err, LOG_ERROR);
+        _log->local("[SERVER]: " + err, logger::LOG_ERROR);
         return -1;
     }
     return 0;

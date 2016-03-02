@@ -21,34 +21,33 @@
 using namespace std;
 
 
-bool Server::checkUser(unsigned user)
+bool Server::checkUser(unsigned user) const
 {
-    for (const auto &usr: this->users)
+    for (const auto &usr: _users)
         if (usr == user)
             return true;
-
     return false;
 }
 
-Server::Server(const shared_ptr<ILog> &log, const shared_ptr<IDatabase> &db, const shared_ptr<IConfigs> &cfg)
+Server::Server(const shared_ptr<logger::ILog> &log, const shared_ptr<IDatabase> &db, const shared_ptr<IConfigs> &cfg)
 {
-    this->m_log = log;
-    this->m_db = db;
-    this->m_cfg = cfg;
+    _log = log;
+    _db = db;
+    _cfg = cfg;
 }
 
 void Server::newSession(shared_ptr<ITcpClient> client)
 {
     Data rdata;
     char data[DATA_SIZE];   
-    auto dbc = m_cfg->getDatabaseCfg();
+    auto dbc = _cfg->getDatabaseCfg();
 
     memset(data, 0x00, DATA_SIZE);
     try {
         client->recv(data, DATA_SIZE);
     }
     catch (const string &err) {
-        m_log->local("[NEW_CLIENT]: " + err, LOG_INFORMATION);
+        _log->local("[NEW_CLIENT]: " + err, logger::LOG_INFORMATION);
         return;
     }
     try {
@@ -62,29 +61,28 @@ void Server::newSession(shared_ptr<ITcpClient> client)
         rdata.hum = pt.get<float>("Hum");
     }
     catch (...) {
-        m_log->local("[NEW_CLIENT]: Error parsing json data.", LOG_INFORMATION);
+        _log->local("[NEW_CLIENT]: Error parsing json data.", logger::LOG_INFORMATION);
         return;
     }
     if (!checkUser(rdata.id)) {
-        m_log->local("[NEW_CLIENT]: Bad ID!", LOG_ERROR);
+        _log->local("[NEW_CLIENT]: Bad ID!", logger::LOG_ERROR);
         return;
     }
     cout << "[NEW_CLIENT] id: " << rdata.id << " Temp: " << rdata.temp << " Hum: " << rdata.hum << "%." << endl;
 
     try {
-        m_db->connect(dbc->ip, dbc->user, dbc->passwd, dbc->base);
-        m_db->addToBase(rdata.id, rdata.temp, rdata.hum);
-        m_db->close();
+        _db->connect(dbc->ip, dbc->user, dbc->passwd, dbc->base);
+        _db->addToBase(rdata.id, rdata.temp, rdata.hum);
     }
     catch (const string &err) {
-        m_log->local("[DATABASE]: " + err, LOG_ERROR);
+        _log->local("[DATABASE]: " + err, logger::LOG_ERROR);
         return;
     }
 }
 
 void Server::acceptError(void) const
 {
-    m_log->local("[SERVER]: Fail accepting client.", LOG_INFORMATION);
+    _log->local("[SERVER]: Fail accepting client.", logger::LOG_INFORMATION);
 }
 
 void Server::start(unsigned port)
@@ -102,7 +100,7 @@ void Server::loadUsers(const string &filename)
 
     try {
         while (getline(file, usr))
-            users.push_back(boost::lexical_cast<unsigned>(usr));
+            _users.push_back(boost::lexical_cast<unsigned>(usr));
     }
     catch (...) {
         file.close();

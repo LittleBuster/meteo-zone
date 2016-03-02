@@ -1,4 +1,4 @@
-/* Meteo-zone server
+/* Multifunctional logger server
  *
  * Copyright (C) 2016 Sergey Denisov.
  * Written by Sergey Denisov aka LittleBuster (DenisovS21@gmail.com)
@@ -34,19 +34,19 @@ public:
 class TcpServer: public ITcpServer
 {
 private:
-    boost::asio::io_service io_service;
-    shared_ptr<tcp::acceptor> acpt;
+    boost::asio::io_service _service;
+    shared_ptr<tcp::acceptor> _acpt;
 
 public:
     /*
      * New client connection session
      */
-    virtual void newSession(shared_ptr<ITcpClient> client) { };
+    virtual void newSession(shared_ptr<ITcpClient> client) = 0;
 
     /*
      * Accepting new client error signal
      */
-    virtual void acceptError(void) const { };
+    virtual void acceptError(void) const = 0;
 
     /**
      * Binding tcp server

@@ -11,19 +11,20 @@
 
 #include <memory>
 
-#include "log.h"
+#include <logger/log.h>
 #include "database.h"
 #include "configs.h"
 #include "server.h"
 #include "app.h"
+
+using namespace logger;
 
 
 int main()
 {
     auto db = make_shared<Database>();
     auto cfg = make_shared<Configs>();
-    auto client = make_shared<TcpClient>();
-    auto log = make_shared<Log>(client);
+    auto log = make_shared<Log>();
     auto server = make_shared<Server>(log, db, cfg);
 
     auto app = make_shared<App>(log, cfg, server);

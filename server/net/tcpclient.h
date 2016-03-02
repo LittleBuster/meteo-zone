@@ -1,4 +1,4 @@
-/* Meteo-zone server
+/* Multifunctional logger server
  *
  * Copyright (C) 2016 Sergey Denisov.
  * Written by Sergey Denisov aka LittleBuster (DenisovS21@gmail.com)
@@ -9,8 +9,8 @@
  * of the Licence, or (at your option) any later version.
  */
 
-#ifndef __TCPSOCKET_H__
-#define __TCPSOCKET_H__
+#ifndef __TCPCLIENT_H__
+#define __TCPCLIENT_H__
 
 #include <memory>
 #include <boost/asio.hpp>
@@ -32,9 +32,8 @@ public:
 class TcpClient: public ITcpClient
 {
 private:
-    boost::asio::io_service io_service;
-    shared_ptr<tcp::socket> s_client;
-    shared_ptr<tcp::acceptor> acpt;
+    boost::asio::io_service _service;
+    shared_ptr<tcp::socket> _client;
 
 public:
     explicit TcpClient();
