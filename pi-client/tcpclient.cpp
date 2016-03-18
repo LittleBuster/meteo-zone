@@ -43,7 +43,7 @@ void TcpClient::send(const void *data, size_t len)
         throw string("Fail sending data.");
 }
 
-void TcpClient::recv(void *data, size_t len)
+void TcpClient::recv(void *data, size_t len) const
 {
     size_t r_len;
     boost::system::error_code error;
@@ -58,7 +58,7 @@ void TcpClient::recv(void *data, size_t len)
         throw string("Fail receiving data. Bad data length.");
 }
 
-void TcpClient::close()
+void TcpClient::close() const
 {
     this->s_client->close();
 }

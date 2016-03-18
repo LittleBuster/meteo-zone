@@ -14,17 +14,17 @@
 
 #include "sender.h"
 #include "configs.h"
-#include "log.h"
+#include <logger/log.h>
 
 class App
 {
 private:
-    shared_ptr<ISender> m_sender;
-    shared_ptr<IConfigs> m_cfg;
-    shared_ptr<ILog> m_log;
+    shared_ptr<ISender> _sender;
+    shared_ptr<IConfigs> _cfg;
+    shared_ptr<logger::ILog> _log;
 
 public:
-    explicit App(const shared_ptr<ISender> &sender, const shared_ptr<IConfigs> &cfg, const shared_ptr<ILog> &log);
+    explicit App(const shared_ptr<ISender> &sender, const shared_ptr<IConfigs> &cfg, const shared_ptr<logger::ILog> &log);
 
     int start(void);
 };

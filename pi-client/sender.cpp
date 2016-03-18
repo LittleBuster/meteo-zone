@@ -13,39 +13,39 @@
 
 
 Sender::Sender(const shared_ptr<ITcpClient> &client, const shared_ptr<IDHT22> &dht_out, const shared_ptr<IDHT22> &dht_in,
-               const shared_ptr<IConfigs> &cfg, const shared_ptr<ILCD> &lcd, const shared_ptr<ILog> &log)
+               const shared_ptr<IConfigs> &cfg, const shared_ptr<ILCD> &lcd, const shared_ptr<logger::ILog> &log)
 {
-    this->m_client = client;
-    this->m_dht_in = dht_in;
-    this->m_dht_out = dht_out;
-    this->m_cfg = cfg;
-    this->m_lcd = lcd;
-    this->m_log = log;
-    this->is_inside = false;
-    this->interval = 0;
+    _client = client;
+    _dhtIn = dht_in;
+    _dhtOut = dht_out;
+    _cfg = cfg;
+    _lcd = lcd;
+    _log = log;
+    _isInside = false;
+    _interval = 0;
 }
 
 void Sender::start(void)
 {
-    auto sc = m_cfg->getSensorsCfg();
-    auto lc = m_cfg->getLcdCfg();
+    auto sc = _cfg->getSensorsCfg();
+    auto lc = _cfg->getLcdCfg();
 
-    m_dht_out->init(sc->out);
+    _dhtOut->init(sc->out);
     try {
-        m_dht_in->init(sc->in);
-        this->is_inside = true;
+        _dhtIn->init(sc->in);
+        _isInside = true;
     }
     catch (const string &err) {
-        m_log->local("[INSIDE_SENSOR]: " + err, LOG_WARNING);
-        this->is_inside = false;
+        _log->local("[INSIDE_SENSOR]: " + err, logger::LOG_WARNING);
+        _isInside = false;
     }
     if (sc->in == 0)
-        is_inside = false;
+        _isInside = false;
 
-    this->m_lcd->init(lc->port, lc->i2c);
+    _lcd->init(lc->port, lc->i2c);
 
-    this->timer = make_shared<deadline_timer>(io, boost::posix_time::seconds(this->interval));
-    this->timer->async_wait(boost::bind(&Sender::send, this));
+    _timer = make_shared<deadline_timer>(io, boost::posix_time::seconds(_interval));
+    _timer->async_wait(boost::bind(&Sender::send, this));
     io.run();
 }
 
@@ -58,11 +58,11 @@ void Sender::send(void)
     float out_hum = 0.0f;
     float in_temp = 0.0f;
     float in_hum = 0.0f;
-    auto msc = m_cfg->getMeteoCfg();
+    auto msc = _cfg->getMeteoCfg();
 
     for (unsigned i = 0; i < 5; i++) {
         try {
-            m_dht_out->readData(out_temp, out_hum);
+            _dhtOut->readData(out_temp, out_hum);
             isRead = true;
         }
         catch (...) {
@@ -72,39 +72,39 @@ void Sender::send(void)
     }
 
     if (!isRead) {
-        m_log->local("[OUTSIDE_SENSOR]: Can not read data.", LOG_ERROR);
-        timer->expires_at(timer->expires_at() + boost::posix_time::seconds(this->interval));
-        timer->async_wait(boost::bind(&Sender::send, this));
+        _log->local("[OUTSIDE_SENSOR]: Can not read data.", logger::LOG_ERROR);
+        _timer->expires_at(_timer->expires_at() + boost::posix_time::seconds(_interval));
+        _timer->async_wait(boost::bind(&Sender::send, this));
         return;
     }
 
-    if (is_inside) {
+    if (_isInside) {
         try {
-            m_dht_in->readData(in_temp, in_hum);
+            _dhtIn->readData(in_temp, in_hum);
         }
         catch (const string &err) {
-            m_log->local("[INSIDE_SENSOR]: " + err, LOG_WARNING);
+            _log->local("[INSIDE_SENSOR]: " + err, logger::LOG_WARNING);
             in_temp = 0.0f;
             in_hum = 0.0f;
         }
     }
     cout << "[OUT_TEMP]: " << out_temp << " [OUT_HUM]: " << out_hum << " [IN_TEMP]: " << in_temp << " [IN_HUM]: " << in_hum << endl;
-    m_lcd->clear();
-    m_lcd->showData(out_temp, out_hum, in_temp, in_hum);
+    _lcd->clear();
+    _lcd->showData(out_temp, out_hum, in_temp, in_hum);
 
     try {
         string out;
         out = "{\"Id\": " + boost::lexical_cast<string>(msc->id) + ", \"Temp\": ";
         out += boost::lexical_cast<string>(out_temp) + ", \"Hum\": " + boost::lexical_cast<string>(out_hum) + "}";
 
-        this->m_client->connect(msc->ip, msc->port);
-        this->m_client->send((void *)out.c_str(), DATA_SIZE);
-        this->m_client->close();
+        _client->connect(msc->ip, msc->port);
+        _client->send((void *)out.c_str(), DATA_SIZE);
+        _client->close();
     }
     catch (const string &err) {
-        m_log->local("[CLIENT]: " + err, LOG_ERROR);
+        _log->local("[CLIENT]: " + err, logger::LOG_ERROR);
     }
 
-    timer->expires_at(timer->expires_at() + boost::posix_time::seconds(this->interval));
-    this->timer->async_wait(boost::bind(&Sender::send, this));
+    _timer->expires_at(_timer->expires_at() + boost::posix_time::seconds(_interval));
+    _timer->async_wait(boost::bind(&Sender::send, this));
 }

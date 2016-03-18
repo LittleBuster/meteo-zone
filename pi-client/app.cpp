@@ -11,38 +11,39 @@
 
 #include "app.h"
 #include <boost/thread.hpp>
+#include <boost/lexical_cast.hpp>
 
 
-App::App(const shared_ptr<ISender> &sender, const shared_ptr<IConfigs> &cfg, const shared_ptr<ILog> &log)
+App::App(const shared_ptr<ISender> &sender, const shared_ptr<IConfigs> &cfg, const shared_ptr<logger::ILog> &log)
 {
-    m_sender = sender;
-    m_cfg = cfg;
-    m_log = log;
+    _sender = sender;
+    _cfg = cfg;
+    _log = log;
 }
 
 int App::start(void)
 {
     cout << "Starting meteo client..." << endl;
-    m_log->setLogFile("/var/log/meteo.log");
+    _log->setLogFile("/var/log/meteo.log");
 
     try {
-        m_cfg->load("/etc/meteo.cfg");
+        _cfg->load("/etc/meteo.cfg");
     }
     catch (const string &err) {
-        m_log->local("[CONFIGS]: " + err, LOG_ERROR);
+        _log->local("[CONFIGS]: " + err, logger::LOG_ERROR);
         return -1;
     }
 
-    auto msc = m_cfg->getMeteoCfg();
-    auto rlc = m_cfg->getRLogCfg();
-    m_log->setRemoteLogCfg(rlc->ip, rlc->port);
+    auto msc = _cfg->getMeteoCfg();
+    auto rlc = _cfg->getRLogCfg();
+    _log->setRemoteLogCfg(rlc->ip, rlc->port, boost::lexical_cast<string>(msc->id));
 
-    m_sender->setInterval(msc->interval);
+    _sender->setInterval(msc->interval);
     try {
-        m_sender->start();
+        _sender->start();
     }
     catch (const string &err) {
-        m_log->local("[OUTSIDE_SENSOR]: " + err, LOG_ERROR);
+        _log->local("[OUTSIDE_SENSOR]: " + err, logger::LOG_ERROR);
         return -1;
     }
 

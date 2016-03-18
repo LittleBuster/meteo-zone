@@ -13,7 +13,6 @@
 #define __CONFIGS_H__
 
 #include <memory>
-#include "log.h"
 
 using namespace std;
 

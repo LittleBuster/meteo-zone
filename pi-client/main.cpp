@@ -12,7 +12,6 @@
 #include <memory>
 #include "app.h"
 #include "configs.h"
-#include "log.h"
 #include "sender.h"
 #include "tcpclient.h"
 #include "lcd.h"
@@ -26,7 +25,7 @@ int main(void)
     auto cfg = make_shared<Configs>();
     auto client = make_shared<TcpClient>();
     auto lcd = make_shared<LCD>();
-    auto log = make_shared<Log>(client);
+    auto log = make_shared<logger::Log>();
     auto sender = make_shared<Sender>(client, dht_out, dht_in, cfg, lcd, log);
 
     auto app = make_shared<App>(sender, cfg, log);
