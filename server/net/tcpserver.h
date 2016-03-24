@@ -1,4 +1,4 @@
-/* Multifunctional logger server
+/* Meteozone server
  *
  * Copyright (C) 2016 Sergey Denisov.
  * Written by Sergey Denisov aka LittleBuster (DenisovS21@gmail.com)
@@ -41,12 +41,12 @@ public:
     /*
      * New client connection session
      */
-    virtual void newSession(shared_ptr<ITcpClient> client) = 0;
+    virtual void newSession(shared_ptr<ITcpClient> client) { };
 
     /*
      * Accepting new client error signal
      */
-    virtual void acceptError(void) const = 0;
+    virtual void acceptError(void) const { };
 
     /**
      * Binding tcp server
@@ -54,7 +54,7 @@ public:
      *
      * throw: error if fail binding
      */
-    virtual void start(unsigned port);
+    void start(unsigned port);
 };
 
 

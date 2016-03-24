@@ -7,7 +7,7 @@ find_package(Boost COMPONENTS system REQUIRED)
 include_directories(".")
 include_directories("./net/")
 set(CMAKE_CXX_COMPILER clang++)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wno-inconsistent-missing-override -march=native -pedantic -Wall -O2")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pedantic -march=native -Wall -O2")
 set(SRC_LIST app.cpp main.cpp configs.cpp server.cpp net/tcpclient.cpp net/tcpserver.cpp database.cpp)
 
 add_executable(${PROJECT_NAME} ${SRC_LIST})

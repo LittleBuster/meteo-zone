@@ -73,7 +73,7 @@ public:
      *
      * throw: error if fail binding local ip and port
      */
-    virtual void start(unsigned port) override final;
+    void start(unsigned port);
 
     /**
      * Loading user list

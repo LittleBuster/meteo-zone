@@ -13,7 +13,7 @@
 #define __DATABASE_H__
 
 #include <string>
-#include <postgresql/libpq-fe.h>
+#include <libpq-fe.h>
 
 using namespace std;
 
