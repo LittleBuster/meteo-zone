@@ -53,9 +53,6 @@ void TcpClient::recv(void *data, size_t len) const
         return;
     else if (error)
         throw string("Fail receiving data.");
-
-    if (r_len != len)
-        throw string("Fail receiving data. Bad data length.");
 }
 
 void TcpClient::close() const

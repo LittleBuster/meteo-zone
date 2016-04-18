@@ -44,4 +44,6 @@ void Database::addToBase(unsigned id, float temp, float hum)
     PGresult *res = PQexec(_conn, req.c_str());
     if (PQresultStatus(res) != PGRES_COMMAND_OK)
         throw string("Fail insert record to database.");
+    PQclear(res);
+    PQfinsh(_conn);
 }
