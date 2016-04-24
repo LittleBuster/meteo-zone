@@ -25,13 +25,6 @@ make install
 nano /etc/meteo.cfg
 #add to autorun /usr/share/meteo/mzclient and "chmod +x mzclient"
 ````
-<h2>Arduino Nano client</h2><br>
-<b>Installation:</b>
-````
-Install Eclipse IDE
-Configure https://geektimes.ru/post/255644/
-Add files to project
-````
 <h2>Meteo server</h2><br>
 <b>Depedencies (CentOS):</b>
 ````
